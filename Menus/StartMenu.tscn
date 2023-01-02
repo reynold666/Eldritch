@@ -1,0 +1,221 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Fonts/SwampWitch-8R7z.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://SCRIPTS/RichTextPulse.tres" type="RichTextEffect" id=2]
+[ext_resource path="res://Fonts/PixelEmulator-xq08.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://SCRIPTS/StartMenu.gd" type="Script" id=4]
+[ext_resource path="res://GFX/skull.png" type="Texture" id=5]
+[ext_resource path="res://Effects/EyeGlow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GFX/soundclosewhite.png" type="Texture" id=7]
+[ext_resource path="res://GFX/soundiconwhite.png" type="Texture" id=8]
+[ext_resource path="res://SFX/jam normal.mp3" type="AudioStream" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 256
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 128
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 128
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 128
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 128
+font_data = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="STARTMENU" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="GAMETITLE" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 224.0
+margin_top = 130.0
+margin_right = 1717.0
+margin_bottom = 434.0
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[pulse color=#ff2757 height=0.0 freq=2.0]Dungeon of Trullmiuth[/pulse]"
+text = "Dungeon of Trullmiuth"
+scroll_active = false
+custom_effects = [ ExtResource( 2 ) ]
+
+[node name="NEWGAME" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 576.0
+margin_top = 456.0
+margin_right = 1378.0
+margin_bottom = 621.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[wave]NEW GAME[/wave]"
+text = "NEW GAME"
+scroll_active = false
+
+[node name="CREDITS" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 566.0
+margin_top = 639.0
+margin_right = 1368.0
+margin_bottom = 804.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[wave]CREDITS[/wave]"
+text = "CREDITS"
+scroll_active = false
+
+[node name="QUIT" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 576.0
+margin_top = 836.0
+margin_right = 1378.0
+margin_bottom = 1001.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[wave]QUIT[/wave]"
+text = "QUIT"
+scroll_active = false
+
+[node name="NEW GAME" type="Sprite" parent="STARTMENU"]
+visible = false
+position = Vector2( 482, 530 )
+texture = ExtResource( 5 )
+
+[node name="CREDITS2" type="Sprite" parent="STARTMENU"]
+visible = false
+position = Vector2( 484, 718 )
+texture = ExtResource( 5 )
+
+[node name="QUIT2" type="Sprite" parent="STARTMENU"]
+visible = false
+position = Vector2( 484, 913 )
+texture = ExtResource( 5 )
+
+[node name="TextureButton" type="TextureButton" parent="STARTMENU"]
+margin_left = 1547.0
+margin_top = 595.0
+margin_right = 2059.0
+margin_bottom = 1107.0
+rect_scale = Vector2( 0.5, 0.5 )
+toggle_mode = true
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+
+[node name="EyeGlow" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 649, 155 )
+
+[node name="EyeGlow2" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 1107, 155 )
+
+[node name="CREDITSSCREEN" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BACKARROW" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 87.0
+margin_top = 49.0
+margin_right = 277.0
+margin_bottom = 189.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[rainbow]<---[/rainbow]"
+text = "<---"
+scroll_active = false
+
+[node name="STORY" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 393.0
+margin_top = 76.0
+margin_right = 917.0
+margin_bottom = 237.0
+custom_fonts/normal_font = SubResource( 6 )
+text = "STORY:"
+scroll_active = false
+
+[node name="STORYPEOPLE" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 441.0
+margin_top = 218.0
+margin_right = 834.0
+margin_bottom = 376.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "[rainbow][wave]CEEN[/wave][rainbow]"
+text = "CEEN"
+scroll_active = false
+
+[node name="PROGRAMMING" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 381.0
+margin_top = 382.0
+margin_right = 1515.0
+margin_bottom = 543.0
+hint_tooltip = "BACK"
+custom_fonts/normal_font = SubResource( 6 )
+text = "PROGRAMMING:"
+scroll_active = false
+
+[node name="PROGRAMMERS" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 426.0
+margin_top = 543.0
+margin_right = 1686.0
+margin_bottom = 998.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "[rainbow][wave]KRAKEN
+HARAMI
+HOLLOW PURITY[/wave][rainbow]"
+text = "KRAKEN
+HARAMI
+HOLLOW PURITY"
+scroll_active = false
+
+[node name="MUSIC" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 1117.0
+margin_top = 73.0
+margin_right = 1641.0
+margin_bottom = 234.0
+custom_fonts/normal_font = SubResource( 6 )
+text = "MUSIC::"
+scroll_active = false
+
+[node name="MUSICPEOPLE" type="RichTextLabel" parent="CREDITSSCREEN"]
+margin_left = 988.0
+margin_top = 226.0
+margin_right = 1774.0
+margin_bottom = 374.0
+custom_fonts/normal_font = SubResource( 7 )
+bbcode_enabled = true
+bbcode_text = "[rainbow][wave]JOEPLORK[/wave][rainbow]"
+text = "JOEPLORK"
+scroll_active = false
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -13.983
+autoplay = true
+
+[connection signal="gui_input" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_gui_input"]
+[connection signal="mouse_entered" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_mouse_entered"]
+[connection signal="mouse_exited" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_mouse_exited"]
+[connection signal="gui_input" from="STARTMENU/CREDITS" to="." method="_on_CREDITS_gui_input"]
+[connection signal="mouse_entered" from="STARTMENU/CREDITS" to="." method="_on_CREDITS_mouse_entered"]
+[connection signal="mouse_exited" from="STARTMENU/CREDITS" to="." method="_on_CREDITS_mouse_exited"]
+[connection signal="gui_input" from="STARTMENU/QUIT" to="." method="_on_QUIT_gui_input"]
+[connection signal="mouse_entered" from="STARTMENU/QUIT" to="." method="_on_QUIT_mouse_entered"]
+[connection signal="mouse_exited" from="STARTMENU/QUIT" to="." method="_on_QUIT_mouse_exited"]
+[connection signal="pressed" from="STARTMENU/TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="gui_input" from="CREDITSSCREEN/BACKARROW" to="." method="_on_BACKARROW_gui_input"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/jam insane.mp3-78412fdb81d565b5570b46c57f458df3.mp3str"
+
+[deps]
+
+source_file="res://SFX/jam insane.mp3"
+dest_files=[ "res://.import/jam insane.mp3-78412fdb81d565b5570b46c57f458df3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

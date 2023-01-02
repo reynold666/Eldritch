@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GFX/ballonwithheadset2.png" type="Texture" id=1]
+[ext_resource path="res://GFX/ballonwithheadset1.png" type="Texture" id=2]
+[ext_resource path="res://GFX/beach_sand.png" type="Texture" id=3]
+[ext_resource path="res://GFX/turntable pixel art 32x32.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "Vibing",
+"speed": 5.0
+} ]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 2048.0
+margin_bottom = 2048.0
+texture = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 1033, 643 )
+frames = SubResource( 1 )
+animation = "Vibing"
+frame = 1
+playing = true
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 985, 834 )
+scale = Vector2( 10, 10 )
+texture = ExtResource( 4 )
