@@ -15,6 +15,7 @@ export var PhaseShiftDuration=0
 export var PowerWalkDuration=0
 export var PhaseShiftCooldown=0
 export var PowerWalkCooldown=0
+export var InteractingWithPanel=false
 var teleportActive = true
 var phaseShiftActive = true
 var powerWalkActive = true
@@ -24,18 +25,19 @@ func _ready():
 
 func _physics_process(delta):
 	updateCoolDowns()
-	spectralVision()
-	if Input.is_action_just_released("PhaseShift") and phaseShiftActive:
-		PhaseShift()
-	if Input.is_action_just_released("PowerWalk") and powerWalkActive:
-		PowerWalk()
-	print(SPEED_BOOSTER)
-	print(MAX_SPEED)
-	ghostWalkSpeed(SPEED_BOOSTER)
-	update_movement()
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and teleportActive:
-		teleport()
-	move_and_slide(motion)
+	if not InteractingWithPanel:
+		spectralVision()
+		if Input.is_action_just_released("PhaseShift") and phaseShiftActive:
+			PhaseShift()
+		if Input.is_action_just_released("PowerWalk") and powerWalkActive:
+			PowerWalk()
+#		print(SPEED_BOOSTER)
+#		print(MAX_SPEED)
+		ghostWalkSpeed(SPEED_BOOSTER)
+		update_movement()
+		if Input.is_mouse_button_pressed(BUTTON_LEFT) and teleportActive:
+			teleport()
+		move_and_slide(motion)
 	
 func update_movement():
 	if Input.is_action_pressed("Down") and not Input.is_action_pressed("Top"):
@@ -82,7 +84,7 @@ func updateSanity(damage):
 		
 func teleport():
 		var mousePosition = get_global_mouse_position()
-		print(mousePosition)
+#		print(mousePosition)
 		$".".global_position=mousePosition
 		teleportActive= !teleportActive
 		$TimerTeleport.start()
@@ -156,4 +158,6 @@ func updateCoolDowns():
 		PowerWalkCooldown=$CooldownPowerWalk.time_left
 
 
+func interactingWithPanel():
+	InteractingWithPanel= !InteractingWithPanel
 	
