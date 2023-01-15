@@ -24,7 +24,6 @@ texture = ExtResource( 3 )
 position = Vector2( 1033, 643 )
 frames = SubResource( 1 )
 animation = "Vibing"
-frame = 1
 playing = true
 
 [node name="Sprite" type="Sprite" parent="."]

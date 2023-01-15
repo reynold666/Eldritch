@@ -28,6 +28,8 @@ position = Vector2( 174, 15 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 995, 482 )
+z_index = 1
+collision_mask = 6
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
@@ -81,6 +83,8 @@ text = "Duration"
 
 [node name="Wall" type="StaticBody2D" parent="." groups=["Walls"]]
 position = Vector2( 2308, 224 )
+collision_layer = 2
+collision_mask = 0
 script = ExtResource( 6 )
 
 [node name="WallSprite" type="Sprite" parent="Wall"]
