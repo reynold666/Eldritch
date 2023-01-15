@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://SCRIPTS/SignPostPortrait.gd" type="Script" id=1]
+[ext_resource path="res://GFX/torchmap.png" type="Texture" id=2]
+[ext_resource path="res://GFX/SignPostWithMissingLine.png" type="Texture" id=3]
+[ext_resource path="res://GFX/Lettering.png" type="Texture" id=4]
+
+[sub_resource type="Curve" id=3]
+min_value = -1.0
+_data = [ Vector2( 0, -1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Environment" id=2]
+background_mode = 4
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_levels/6 = true
+glow_levels/7 = true
+glow_intensity = 2.78
+glow_hdr_luminance_cap = 77.83
+
+[node name="SignPostPortrait" type="Sprite" groups=["SignPostPortrait"]]
+texture = ExtResource( 3 )
+script = ExtResource( 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+visible = false
+modulate = Color( 1, 1, 49.71, 1 )
+position = Vector2( 47, -38 )
+amount = 1
+texture = ExtResource( 4 )
+direction = Vector2( 0, 0 )
+gravity = Vector2( 0, 0 )
+hue_variation_curve = SubResource( 3 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="CPUParticles2D"]
+environment = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+position = Vector2( 26, 4 )
+rotation = -1.5708
+texture = ExtResource( 2 )
+color = Color( 0.0235294, 0.862745, 0.972549, 1 )

@@ -42,48 +42,63 @@ func MagicCircleAnimation():
 #	$MagicCircle.rotation+=0.1
 	
 func ActivateTreasureBox():
-	$CollisionShape2D.visible= !$CollisionShape2D.visible
+#	$CollisionShape2D.visible= !$CollisionShape2D.visible
+	TreasureBoxActive= !TreasureBoxActive
+	EnableTreasureBox= !EnableTreasureBox
 	
-func ActivateTreasureBoxShadow():
-	$TreasureBoxShadow.visible= !$TreasureBoxShadow.visible
+#func ActivateTreasureBoxShadow():
+#	$TreasureBoxShadow.visible= !$TreasureBoxShadow.visible
+	
+func InFrontOfControlPanelStand():
+	$RayCast2D.enabled= true
+	if $RayCast2D.is_colliding():
+		var temp=$RayCast2D.get_collider()
+		print(temp)
+		print(temp.name)
+		if temp.name=="ControlPanelBody":
+			$TreasureBoxShadow.visible=true
+	else:
+		$TreasureBoxShadow.visible=false
 
 func PlatforMove(a):
 	var moveLimitLeft= TreasureBoxPlatformPostion.x-900
+	print(moveLimitLeft)
 	var moveLimitRight= TreasureBoxPlatformPostion.x+900
+	print(moveLimitRight)
 	if a==65:
 		temp=global_position
-		var step=300
+		var step=900
 		temp.x=temp.x-step
 #		temp.y=temp.y+step
-		if temp.x == moveLimitLeft:
+		if temp.x >= moveLimitLeft:
 			var tween = get_node("Tween")
 			tween.interpolate_property($".", "position",
 				global_position, temp, 1,
 				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			tween.start()
-		if temp.x ==0:
-			var tween = get_node("Tween")
-			tween.interpolate_property($".", "position",
-				global_position, temp, 1,
-				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			tween.start()
+#		if temp.x ==0:
+#			var tween = get_node("Tween")
+#			tween.interpolate_property($".", "position",
+#				global_position, temp, 1,
+#				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#			tween.start()
 	if a==68:
 		temp=global_position
-		var step=300
+		var step=900
 		temp.x=temp.x+step
 #		temp.y=temp.y+step
-		if temp.x == moveLimitRight:
+		if temp.x <= moveLimitRight:
 			var tween = get_node("Tween")
 			tween.interpolate_property($".", "position",
 				global_position, temp, 1,
 				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			tween.start()
-		if temp.x ==0:
-			var tween = get_node("Tween")
-			tween.interpolate_property($".", "position",
-				global_position, temp, 1,
-				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			tween.start()
+#		if temp.x ==0:
+#			var tween = get_node("Tween")
+#			tween.interpolate_property($".", "position",
+#				global_position, temp, 1,
+#				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#			tween.start()
 #	temp=$MagicCircle.modulate
 #	var step=0.01
 #	print(temp)

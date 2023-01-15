@@ -72,6 +72,8 @@ func detectHidden():
 			var temp=$RayCast2D.get_collider()
 			if temp.name=="BonePile":
 				get_tree().call_group("BonePile","updateDetected")
+			if temp.name=="SignPost":
+				get_tree().call_group("SignPost","makeVisible")
 				
 func updateSanity(damage):
 	Sanity=Sanity-damage

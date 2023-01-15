@@ -1,0 +1,21 @@
+{
+	"color": "#ff544949",
+	"description": "SignPost",
+	"display_name": "Warning",
+	"display_name_bool": true,
+	"id": "character-1673623648.json",
+	"mirror_portraits": false,
+	"name": "SignPost",
+	"nickname": "",
+	"nickname_bool": false,
+	"offset_x": 0,
+	"offset_y": -300,
+	"portraits": [
+		{
+			"name": "Default",
+			"path": "res://Environment/SignPostPortrait.tscn"
+		}
+	],
+	"scale": 200,
+	"theme": ""
+}
