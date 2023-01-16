@@ -95,7 +95,7 @@ func PhaseShift():
 	z_index=1
 	$PlayerSprite.modulate=Color(1,1,1,0.25)
 	phaseShiftActive= !phaseShiftActive
-	get_tree().call_group("Walls","makePermeable")
+	set_collision_mask_bit(1, false)
 	$TimerPhaseShift.start()
 
 func ghostWalkSpeed(a):
@@ -121,7 +121,7 @@ func _on_TimerPhaseShift_timeout():
 	$PlayerSprite.modulate=Color(1,1,1,1)
 #	phaseShiftActive= !phaseShiftActive
 	$CooldownPhaseShift.start()
-	get_tree().call_group("Walls","makePermeable")
+	set_collision_mask_bit(1, true)
 
 
 func _on_TimerPowerWalk_timeout():

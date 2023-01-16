@@ -87,7 +87,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Eldritch"
+run/main_scene="res://Levels/level1topdown.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+SceneManager="*res://SCRIPTS/Global/SceneManager.gd"
 
 [display]
 
@@ -158,6 +163,7 @@ dialogic_default_action={
 [layer_names]
 
 2d_physics/layer_1="Player"
+2d_physics/layer_2="Walls/Ground"
 2d_physics/layer_3="Traps"
 
 [mono]
