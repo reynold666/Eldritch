@@ -90,6 +90,10 @@ config/name="Eldritch"
 run/main_scene="res://Levels/level1topdown.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+SceneManager="*res://SCRIPTS/Global/SceneManager.gd"
+
 [display]
 
 window/size/width=1920

@@ -5,6 +5,7 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
+export var ScenePath: Resource
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,5 +18,8 @@ func _ready():
 
 
 func _on_Area2D_body_entered(body):
-	pass
+	
+	if ScenePath:
+		print("going to: " + ScenePath.resource_path)
+		SceneManager.goto_scene(ScenePath.resource_path)
 #	get_tree().call_group("GameState","win_game")
