@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Fonts/SwampWitch-8R7z.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://SCRIPTS/RichTextPulse.tres" type="RichTextEffect" id=2]
+[ext_resource path="res://Fonts/PixelEmulator-xq08.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://SCRIPTS/GameOver.gd" type="Script" id=4]
+[ext_resource path="res://GFX/skull.png" type="Texture" id=5]
+[ext_resource path="res://Effects/EyeGlow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GFX/soundclosewhite.png" type="Texture" id=7]
+[ext_resource path="res://GFX/soundiconwhite.png" type="Texture" id=8]
+[ext_resource path="res://SFX/sad_game_over-mod.mp3" type="AudioStream" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 384
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 128
+font_data = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="STARTMENU" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="GAMETITLE" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 446.0
+margin_top = 22.0
+margin_right = 1449.0
+margin_bottom = 494.0
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[pulse color=#ff2757 height=0.0 freq=2.0]GAME OVER[/pulse]"
+text = "GAME OVER"
+scroll_active = false
+custom_effects = [ ExtResource( 2 ) ]
+
+[node name="NEWGAME" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 576.0
+margin_top = 508.0
+margin_right = 1378.0
+margin_bottom = 673.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[wave]NEW GAME[/wave]"
+text = "NEW GAME"
+scroll_active = false
+
+[node name="QUIT" type="RichTextLabel" parent="STARTMENU"]
+margin_left = 576.0
+margin_top = 724.0
+margin_right = 1378.0
+margin_bottom = 889.0
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[wave]QUIT[/wave]"
+text = "QUIT"
+scroll_active = false
+
+[node name="NEW GAME" type="Sprite" parent="STARTMENU"]
+visible = false
+position = Vector2( 482, 592 )
+texture = ExtResource( 5 )
+
+[node name="QUIT2" type="Sprite" parent="STARTMENU"]
+visible = false
+position = Vector2( 484, 799 )
+texture = ExtResource( 5 )
+
+[node name="TextureButton" type="TextureButton" parent="STARTMENU"]
+margin_left = 1547.0
+margin_top = 595.0
+margin_right = 2059.0
+margin_bottom = 1107.0
+rect_scale = Vector2( 0.5, 0.5 )
+toggle_mode = true
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+
+[node name="EyeGlow" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 649, 155 )
+
+[node name="EyeGlow2" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 1107, 155 )
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -22.722
+autoplay = true
+
+[connection signal="gui_input" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_gui_input"]
+[connection signal="mouse_entered" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_mouse_entered"]
+[connection signal="mouse_exited" from="STARTMENU/NEWGAME" to="." method="_on_NEWGAME_mouse_exited"]
+[connection signal="gui_input" from="STARTMENU/QUIT" to="." method="_on_QUIT_gui_input"]
+[connection signal="mouse_entered" from="STARTMENU/QUIT" to="." method="_on_QUIT_mouse_entered"]
+[connection signal="mouse_exited" from="STARTMENU/QUIT" to="." method="_on_QUIT_mouse_exited"]
+[connection signal="pressed" from="STARTMENU/TextureButton" to="." method="_on_TextureButton_pressed"]
