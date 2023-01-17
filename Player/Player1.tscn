@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GFX/ballon1.png" type="Texture" id=1]
 [ext_resource path="res://GFX/Ballon2.png" type="Texture" id=2]
 [ext_resource path="res://SCRIPTS/Player1.gd" type="Script" id=3]
 [ext_resource path="res://GFX/circle_05.png" type="Texture" id=4]
 [ext_resource path="res://Player/Spectralvision.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Player/PlayerUI.tscn" type="PackedScene" id=6]
 
 [sub_resource type="AnimatedTexture" id=1]
 flags = 5
@@ -63,11 +64,11 @@ wait_time = 5.0
 one_shot = true
 
 [node name="TimerPhaseShift" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 2.5
 one_shot = true
 
 [node name="TimerPowerWalk" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.5
 one_shot = true
 
 [node name="CooldownPhaseShift" type="Timer" parent="."]
@@ -77,6 +78,8 @@ one_shot = true
 [node name="CooldownPowerWalk" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="PlayerUI" parent="." instance=ExtResource( 6 )]
 
 [connection signal="timeout" from="TimerTeleport" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="TimerPhaseShift" to="." method="_on_TimerPhaseShift_timeout"]
