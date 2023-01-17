@@ -20,7 +20,7 @@ export var PhaseShiftDuration=2
 export var PhaseShiftCooldown=6
 export var PhaseShiftSpiritCost=35
 export var TeleportCooldown=6
-export var TeleportDistance=10
+export var TeleportDistance=1000
 export var TeleportSpiritCost=25
 
 var SpectralVisionMinSpiritThresh = SpectralVisionSpiritCostPerSecond
@@ -125,7 +125,8 @@ func teleport():
 		changeSpiritual(-TeleportSpiritCost)
 		var mousePosition = get_global_mouse_position()
 #		print(mousePosition)
-		$".".global_position=mousePosition
+		var target_vector = (mousePosition-global_position).normalized() * TeleportDistance
+		global_position = global_position + target_vector
 		setTeleportUsable(false)
 		playerUi.set_teleport_active(false)
 		$TimerTeleport.start()
