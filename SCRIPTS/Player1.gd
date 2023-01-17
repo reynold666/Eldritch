@@ -9,25 +9,34 @@ const MOVEMENT_ACCELERATION = 100
 
 export var MaximumSanity=100
 export var MaximumSpiritualEnergy=100
-export var PhaseShiftDuration=2
-export var PhaseShiftCooldown=6
-export var PowerWalkDuration=3.5
-export var PowerWalkCooldown=4
-export var TeleportCooldown=6
-export var TeleportDistance=10
+export var SpiritRefillPerSecond=5
+export var SpectralVisionSpiritCostPerSecond=12
 export var NormalSpeed=500
 export var PowerWalkSpeed=1200
+export var PowerWalkDuration=3.5
+export var PowerWalkCooldown=4
+export var PowerWalkSpiritCost=20
+export var PhaseShiftDuration=2
+export var PhaseShiftCooldown=6
+export var PhaseShiftSpiritCost=35
+export var TeleportCooldown=6
+export var TeleportDistance=10
+export var TeleportSpiritCost=25
+
+var SpectralVisionMinSpiritThresh = SpectralVisionSpiritCostPerSecond
+var SpectralVisionAutoShutdownThresh = SpectralVisionSpiritCostPerSecond*0.5
 
 var currentSpeed = NormalSpeed
 var motion = Vector2()
 var Sanity=MaximumSanity
-var SpiritualEnergy=MaximumSpiritualEnergy
+var SpiritualEnergy : float=MaximumSpiritualEnergy
 
 export var InteractingWithPanel=false
 onready var playerUi = $PlayerUI
-var teleportActive = true
-var phaseShiftActive = true
-var powerWalkActive = true
+var teleportUsable = true
+var phaseShiftUsable = true
+var powerWalkUsable = true
+var spectralVisionActive = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$TimerPhaseShift.wait_time=PhaseShiftDuration
@@ -49,17 +58,25 @@ func _ready():
 
 func _physics_process(delta):
 	updateReloadUI()
+	changeSpiritual(delta*SpiritRefillPerSecond)
+	if spectralVisionActive:
+		changeSpiritual(-delta*SpectralVisionSpiritCostPerSecond)
+		if(SpiritualEnergy < SpectralVisionAutoShutdownThresh):
+			setSpectralVisionActive(false)
+
 	#updateCoolDowns()
 	if not InteractingWithPanel:
-		spectralVision()
-		if Input.is_action_just_released("PhaseShift") and phaseShiftActive:
+		if Input.is_action_just_released("Vision") and (spectralVisionActive or SpiritualEnergy >= SpectralVisionMinSpiritThresh):
+			toggleSpectralVision()
+		if Input.is_action_just_released("PhaseShift") and phaseShiftUsable and SpiritualEnergy >= PhaseShiftSpiritCost:
 			PhaseShift()
-		if Input.is_action_just_released("PowerWalk") and powerWalkActive:
+		if Input.is_action_just_released("PowerWalk") and powerWalkUsable and SpiritualEnergy >= PowerWalkSpiritCost:
 			PowerWalk()
 		update_movement()
-		if Input.is_mouse_button_pressed(BUTTON_LEFT) and teleportActive:
+		if Input.is_mouse_button_pressed(BUTTON_LEFT) and teleportUsable and SpiritualEnergy >= TeleportSpiritCost:
 			teleport()
 		move_and_slide(motion)
+	checkSpectralVision()
 	
 func update_movement():
 	if Input.is_action_pressed("Down") and not Input.is_action_pressed("Top"):
@@ -76,32 +93,36 @@ func update_movement():
 	else:
 		motion.x = lerp(motion.x,0,FRICTION)
 
-func spectralVision():
-	if Input.is_action_just_released("Vision"):
-		$Spectralvision.visible=!$Spectralvision.visible
-#		$Spectralvision2.visible=!$Spectralvision2.visible
-	detectHidden()
-	$Spectralvision.look_at(get_global_mouse_position())
+func toggleSpectralVision():
+	setSpectralVisionActive(!spectralVisionActive)
+
 #	$Spectralvision2.look_at(get_global_mouse_position())
+
+func setSpectralVisionActive(spectralVisionActiveNew):
+	spectralVisionActive = spectralVisionActiveNew
+	$Spectralvision.visible=spectralVisionActive
+	setSpectralVisionUsable(!spectralVisionActive)
 	
-func detectHidden():
-	if $Spectralvision.visible:
-		$RayCast2D.enabled=true
-		$RayCast2D.look_at(get_global_mouse_position())
+func checkSpectralVision():
+	if !spectralVisionActive:
+		return
+	$Spectralvision.look_at(get_global_mouse_position())
+	$RayCast2D.enabled=true
+	$RayCast2D.look_at(get_global_mouse_position())
+#	print("Inside Raycast Logic")
+	if $RayCast2D.is_colliding():
 #		print("Inside Raycast Logic")
-		if $RayCast2D.is_colliding():
-#			print("Inside Raycast Logic")
-			var temp=$RayCast2D.get_collider()
-			if temp.name=="BonePile":
-				get_tree().call_group("BonePile","updateDetected")
-			if temp.name=="SignPost":
-				get_tree().call_group("SignPost","makeVisible")
-				
+		var temp=$RayCast2D.get_collider()
+		if temp.name=="BonePile":
+			get_tree().call_group("BonePile","updateDetected")
+		if temp.name=="SignPost":
+			get_tree().call_group("SignPost","makeVisible")
+		
 func updateSanity(damage):
 	changeSanity(-damage)
-
 	
 func teleport():
+		changeSpiritual(-TeleportSpiritCost)
 		var mousePosition = get_global_mouse_position()
 #		print(mousePosition)
 		$".".global_position=mousePosition
@@ -110,6 +131,7 @@ func teleport():
 		$TimerTeleport.start()
 		
 func PhaseShift():
+	changeSpiritual(-PhaseShiftSpiritCost)
 	z_index=1
 	$PlayerSprite.modulate=Color(1,1,1,0.25)
 	setPhaseShiftUsbable(false)
@@ -118,10 +140,11 @@ func PhaseShift():
 	$TimerPhaseShift.start()
 
 func PowerWalk():
+	changeSpiritual(-PowerWalkSpiritCost)
 	currentSpeed = PowerWalkSpeed
 #	ghostWalkSpeed(SPEED_BOOSTER)
 	setPowerWalkUsable(false)
-	playerUi.set_speed_active(false)
+	playerUi.set_power_walk_active(false)
 	$TimerPowerWalk.start()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -155,45 +178,30 @@ func updateReloadUI():
 		playerUi.set_phase_shift_reload(1-$CooldownPhaseShift.time_left/PhaseShiftCooldown)
 	
 	if $CooldownPowerWalk.time_left>0:
-		playerUi.set_speed_reload(1-$CooldownPowerWalk.time_left/PowerWalkCooldown)
+		playerUi.set_power_walk_reload(1-$CooldownPowerWalk.time_left/PowerWalkCooldown)
 	
 	if $TimerTeleport.time_left>0:
 		playerUi.set_teleport_reload(1-$TimerTeleport.time_left/TeleportCooldown)
 
+	playerUi.set_power_walk_spirit_tint(SpiritualEnergy >= PowerWalkSpiritCost)
+	playerUi.set_phase_shift_spirit_tint(SpiritualEnergy >= PhaseShiftSpiritCost)
+	playerUi.set_teleport_spirit_tint(SpiritualEnergy >= TeleportSpiritCost)
+	playerUi.set_spectral_vision_spirit_tint(SpiritualEnergy >= SpectralVisionMinSpiritThresh)
 
-#func updateCoolDowns():
-	#if $TimerPhaseShift.is_stopped():
-	#	PhaseShiftDuration=$TimerPhaseShift.wait_time
-	#else:
-	#	PhaseShiftDuration=$TimerPhaseShift.time_left
+func setTeleportUsable(teleportUsableNew):
+	teleportUsable = teleportUsableNew
+	playerUi.set_teleport_active(teleportUsable)
+
+func setPhaseShiftUsbable(phaseShiftUsableNew):
+	phaseShiftUsable = phaseShiftUsableNew
+	playerUi.set_phase_shift_active(phaseShiftUsable)
 	
-	#if $TimerPowerWalk.is_stopped():
-	#	PowerWalkDuration=$TimerPowerWalk.wait_time
-	#else:
-	#	PowerWalkDuration=$TimerPowerWalk.time_left
-		
-	#if $CooldownPhaseShift.is_stopped():
-	#	PhaseShiftCooldown=$CooldownPhaseShift.wait_time
-	#else:
-	#	PhaseShiftCooldown=$CooldownPhaseShift.time_left
-	
-	#if $CooldownPowerWalk.is_stopped():
-	#	PowerWalkCooldown=$CooldownPowerWalk.wait_time
-	#else:
-	#	PowerWalkCooldown=$CooldownPowerWalk.time_left
+func setPowerWalkUsable(powerWalkUsableNew):
+	powerWalkUsable = powerWalkUsableNew
+	playerUi.set_power_walk_active(powerWalkUsable)
 
-func setTeleportUsable(teleportUsable):
-	teleportActive = teleportUsable
-	playerUi.set_teleport_active(teleportActive)
-
-func setPhaseShiftUsbable(phaseShiftUsable):
-	phaseShiftActive = phaseShiftUsable
-	playerUi.set_phase_shift_active(phaseShiftActive)
-	
-func setPowerWalkUsable(powerWalkUsable):
-	powerWalkActive = powerWalkUsable
-	playerUi.set_speed_active(powerWalkActive)
-
+func setSpectralVisionUsable(spectralVisionUsable):
+	playerUi.set_spectral_vision_active(spectralVisionUsable)
 
 func interactingWithPanel():
 	InteractingWithPanel= !InteractingWithPanel
@@ -211,7 +219,7 @@ func setSanity(newSanity):
 	playerUi.set_sanity_relative(float(Sanity)/MaximumSanity)
 	
 func changeSpiritual(spiritualChange):
-	setSanity(SpiritualEnergy+spiritualChange)
+	setSpiritual(SpiritualEnergy+spiritualChange)
 	
 func setSpiritual(newSpiritual):
 	SpiritualEnergy = clamp(newSpiritual, 0, MaximumSpiritualEnergy)

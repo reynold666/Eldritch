@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/SANITY_FULL.png-228b00acf6ec8297a4285e25df638558.stex"
+path="res://.import/SANITY_FILL.png-2aefb47b57105e2514ac084354f21c03.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GFX/ui/SANITY_FULL.png"
-dest_files=[ "res://.import/SANITY_FULL.png-228b00acf6ec8297a4285e25df638558.stex" ]
+source_file="res://GFX/ui/SANITY_FILL.png"
+dest_files=[ "res://.import/SANITY_FILL.png-2aefb47b57105e2514ac084354f21c03.stex" ]
 
 [params]
 

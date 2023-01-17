@@ -5,10 +5,10 @@
 [ext_resource path="res://GFX/ui/Teleport_Box.png" type="Texture" id=3]
 [ext_resource path="res://GFX/ui/SPEED.png" type="Texture" id=4]
 [ext_resource path="res://GFX/ui/SPIRITUAL_EMPTY.png" type="Texture" id=5]
-[ext_resource path="res://GFX/ui/SANITY_FULL.png" type="Texture" id=6]
+[ext_resource path="res://GFX/ui/SANITY_FILL.png" type="Texture" id=6]
 [ext_resource path="res://GFX/ui/TELEPORT.png" type="Texture" id=7]
 [ext_resource path="res://GFX/ui/SANITY_EMPTY.png" type="Texture" id=8]
-[ext_resource path="res://GFX/ui/SPIRITUAL_FULL.png" type="Texture" id=9]
+[ext_resource path="res://GFX/ui/SPIRITUAL_FILL.png" type="Texture" id=9]
 [ext_resource path="res://GFX/ui/Speed_Box.png" type="Texture" id=10]
 [ext_resource path="res://SCRIPTS/UIManager.gd" type="Script" id=11]
 [ext_resource path="res://GFX/ui/SPECTRAL_VISION.png" type="Texture" id=12]
@@ -21,9 +21,11 @@ script = ExtResource( 11 )
 margin_right = 40.0
 margin_bottom = 40.0
 max_value = 1.0
-step = 0.01
+step = 0.005
+value = 1.0
 texture_under = ExtResource( 8 )
 texture_progress = ExtResource( 6 )
+texture_progress_offset = Vector2( 140, 45 )
 
 [node name="SpiritualBar" type="TextureProgress" parent="."]
 anchor_left = 1.0
@@ -31,9 +33,11 @@ anchor_right = 1.0
 margin_left = -687.0
 margin_bottom = 116.0
 max_value = 1.0
-step = 0.01
+step = 0.005
+value = 1.0
 texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 9 )
+texture_progress_offset = Vector2( 141, 40 )
 
 [node name="HBox" type="HBoxContainer" parent="."]
 margin_left = 578.0

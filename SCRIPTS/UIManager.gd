@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+onready var belowSpiritColor = Color(0.3, 0.3, 0.5, 0.6)
+
 onready var sanityBar = $SanityBar
 onready var spiritualBar = $SpiritualBar
 onready var teleportIconActive = $HBox/Teleport/Box
@@ -23,7 +25,7 @@ func set_sanity_absolute(sanityValue, sanityMaximum, sanityMinimum = 0):
 func set_spiritual_absolute(spiritualValue, spiritualMaximum, spiritualMinimum = 0):
 	set_spiritual_relative(spiritualValue-spiritualMinimum/spiritualMaximum-spiritualMinimum)
 
-func set_speed_active(speedIsActive):
+func set_power_walk_active(speedIsActive):
 	speedIconActive.visible = speedIsActive
 	speedIconInactive.visible = !speedIsActive
 		
@@ -40,7 +42,7 @@ func set_spectral_vision_active(spectralVisionIsActive):
 	spectralVisionIconInactive.visible = !spectralVisionIsActive
 	
 	
-func set_speed_reload(relSpeedReload):
+func set_power_walk_reload(relSpeedReload):
 	speedIconInactive.value = relSpeedReload
 		
 func set_phase_shift_reload(relPhaseShiftReload):
@@ -51,3 +53,27 @@ func set_teleport_reload(relTeleportReload):
 	
 func set_spectral_vision_reload(relSpectralVisionReload):
 	spectralVisionIconInactive.value = relSpectralVisionReload
+	
+func set_power_walk_spirit_tint(isAboveSpiritThreshold):
+	if isAboveSpiritThreshold:
+		speedIconActive.modulate = Color.white
+	else:
+		speedIconActive.modulate = belowSpiritColor
+	
+func set_phase_shift_spirit_tint(isAboveSpiritThreshold):
+	if isAboveSpiritThreshold:
+		phaseShiftIconActive.modulate = Color.white
+	else:
+		phaseShiftIconActive.modulate = belowSpiritColor
+	
+func set_teleport_spirit_tint(isAboveSpiritThreshold):
+	if isAboveSpiritThreshold:
+		teleportIconActive.modulate = Color.white
+	else:
+		teleportIconActive.modulate = belowSpiritColor
+	
+func set_spectral_vision_spirit_tint(isAboveSpiritThreshold):
+	if isAboveSpiritThreshold:
+		spectralVisionIconActive.modulate = Color.white
+	else:
+		spectralVisionIconActive.modulate = belowSpiritColor
