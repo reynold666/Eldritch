@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/sad_game_over-mod.mp3-5c2fe0dc4a0a27383741f30880bdf187.mp3str"
+
+[deps]
+
+source_file="res://SFX/sad_game_over-mod.mp3"
+dest_files=[ "res://.import/sad_game_over-mod.mp3-5c2fe0dc4a0a27383741f30880bdf187.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

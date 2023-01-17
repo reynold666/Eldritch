@@ -1,12 +1,12 @@
 extends Node2D
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
-export var ScenePath: Resource
-
+export var OtherPortalPath: NodePath
+export var TELEPORT_DISTANCE = 200
+export var TELEPORT_DIRECTION = Vector2.RIGHT
+onready var OtherPortal = get_node(OtherPortalPath)
+var teleportTween: SceneTreeTween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -15,11 +15,17 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
+func teleportPlayer(player):
+	teleportTween = create_tween()
+	player.position = position
+	teleportTween.tween_property(player, "position", position + TELEPORT_DIRECTION * TELEPORT_DISTANCE, 1)
+	#yield(tween, "finished")
 
 func _on_Area2D_body_entered(body):
-	
-	if ScenePath:
-		print("going to: " + ScenePath.resource_path)
-		SceneManager.goto_scene(ScenePath.resource_path)
+	#print(body.name)
+	if teleportTween and teleportTween.is_running():
+		return
+	if OtherPortal and body.name.match('Player'):
+		#print("going to: " + OtherPortal.name)
+		OtherPortal.teleportPlayer(body)
 #	get_tree().call_group("GameState","win_game")
