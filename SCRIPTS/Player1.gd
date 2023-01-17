@@ -226,7 +226,7 @@ func setSpiritual(newSpiritual):
 	playerUi.set_spiritual_relative(float(SpiritualEnergy)/MaximumSpiritualEnergy)
 
 func onZeroSanity():
-	# TODO: what happens here? game over screen?
+	get_tree().change_scene("res://Menus/GameOver.tscn")
 	pass
 	
 	
