@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-
+class_name Player
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -22,6 +22,7 @@ export var PhaseShiftSpiritCost=35
 export var TeleportCooldown=6
 export var TeleportDistance=1000
 export var TeleportSpiritCost=25
+export var InvulnTime = 3
 
 var SpectralVisionMinSpiritThresh = SpectralVisionSpiritCostPerSecond
 var SpectralVisionAutoShutdownThresh = SpectralVisionSpiritCostPerSecond*0.5
@@ -120,6 +121,13 @@ func checkSpectralVision():
 		
 func updateSanity(damage):
 	changeSanity(-damage)
+	
+func reactToHit(damage):
+	if $InvulnTimer.is_stopped():
+		updateSanity(damage)
+		$InvulnTimer.start(InvulnTime)
+		$AnimationPlayer.play("Invulnerability")
+	
 	
 func teleport():
 		changeSpiritual(-TeleportSpiritCost)
@@ -231,3 +239,7 @@ func onZeroSanity():
 	pass
 	
 	
+
+
+func _on_InvulnTimer_timeout():
+	$AnimationPlayer.stop()
