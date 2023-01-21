@@ -99,6 +99,7 @@ one_shot = true
 [node name="PlayerUI" parent="." instance=ExtResource( 6 )]
 
 [node name="InvulnTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Invulnerability = SubResource( 3 )

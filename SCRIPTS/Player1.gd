@@ -38,6 +38,7 @@ var teleportUsable = true
 var phaseShiftUsable = true
 var powerWalkUsable = true
 var spectralVisionActive = false
+var isInvuln = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$TimerPhaseShift.wait_time=PhaseShiftDuration
@@ -123,10 +124,11 @@ func updateSanity(damage):
 	changeSanity(-damage)
 	
 func reactToHit(damage):
-	if $InvulnTimer.is_stopped():
+	if !isInvuln:
 		updateSanity(damage)
 		$InvulnTimer.start(InvulnTime)
 		$AnimationPlayer.play("Invulnerability")
+		isInvuln = true
 	
 	
 func teleport():
@@ -243,3 +245,4 @@ func onZeroSanity():
 
 func _on_InvulnTimer_timeout():
 	$AnimationPlayer.stop()
+	isInvuln = false
