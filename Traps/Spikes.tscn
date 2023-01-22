@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://SCRIPTS/Spikes.gd" type="Script" id=1]
+[ext_resource path="res://GFX/spike_0.png" type="Texture" id=2]
+[ext_resource path="res://GFX/spike_1.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 187.5, 216 )
+
+[sub_resource type="Animation" id=1]
+resource_name = "spike_activation"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -5, 0 ), Vector2( 0, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ), Vector2( -5, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Spikes" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="TriggerArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2( 7.5, 19 )
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/spike_activation = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+
+[node name="SpikeActivationTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpikeHoldTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="TriggerArea" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="SpikeActivationTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="SpikeHoldTimer" to="." method="_on_SpikeHoldTimer_timeout"]
